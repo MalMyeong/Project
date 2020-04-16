@@ -6,14 +6,14 @@
     <title>Read</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
-    <script src="semantic/dist/semantic.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <style>
         .m-notification {
@@ -53,6 +53,14 @@
         #btn-group :hover{
             color: white;
             background-color: #B89977;
+        }
+        #upload-file-btn {
+            border: solid   white;
+            background-color:#B89977;
+            padding: 5px;
+            color: white;
+            width: 400px;
+            margin-top: 10px;
         }
         .main {
             font-size: 15px;
@@ -95,7 +103,28 @@
         }
     </style>
     <script>
-        
+        function posting() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:5000/upload',
+                data: {
+                    photo: $('#photo').val(),
+                    title: $('#title').val(),
+                    main_value: $('#main_value').val(),
+                    equip: $('#equip').val(),
+                    sub_value: $('#sub_value').val(),
+                    data: $('#data').val()
+                },
+                success: function(response) {
+                    if (response['result'] == 'success') {
+                        alert('upload 성공')
+                        window.location.reload()
+                    } else {
+                        alert('서버 오류!')
+                    }
+                }
+            })
+        }
     </script>
 </head>
 <body>
@@ -110,42 +139,41 @@
     </div>
     <div>
         <div class='info'>
-            <div class='photo'>
+            <div class="photo">
                 <input type="file" id="photo" class="image_inputType_file" accept="img/*" required multiple>
             </div>
             <div class="input-group">
                 <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">제목</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">제목</span>
                 </div>
                 <input type="text" id='title' class="form-control" placeholder='작성자_날짜 순으로 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group">
                 <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">공정 변수</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">공정 변수</span>
                 </div>
                 <input type="text" id='main_value' class="form-control" placeholder='공정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group">
                 <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">측정 장비</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">측정 장비</span>
                 </div>
                 <input type="text" id='equip' class="form-control" placeholder='측정 장비를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group">
                 <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">측정 변수</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">측정 변수</span>
                 </div>
                 <input type="text" id='sub_value' class="form-control" placeholder='측정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group">
                 <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">측정값</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">측정값</span>
                 </div>
                 <input type="text" id='data' class="form-control" placeholder='측정한 데이터값을 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
-            <div class="button">
-                <button onclick="file_upload()" id='upload_data' type="button" class="btn btn-primary btn-lg btn-block">등록 및 조회</button>
-                <button id='change_data' type="button" class="btn btn-primary btn-lg btn-block">수정하기</button>
+            <div>
+                <button onclick="posting()" id="upload-file-btn" type="button">Upload</button>
             </div>
         </div>
         <div class="card-columns" id="cards-box">
