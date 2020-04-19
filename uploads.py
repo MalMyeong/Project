@@ -37,7 +37,7 @@ def read_data():
     read = list(db.uploads.find({},{'_id':0}))
     return jsonify({'result':'success', 'read':read})
 
-@app.route('/uploads', methods=['POST'])
+@app.route('/uploads/delete', methods=['POST'])
 def delete_data():
     # 1. 클라이언트가 전달한 name_give를 name_receive 변수에 넣습니다.
     title = request.form['title']
