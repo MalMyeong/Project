@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
 
 from pymongo import MongoClient
@@ -11,6 +11,14 @@ collection = db.uploads
 @app.route('/')
 def home():
     return render_template('project_page1.html')
+
+@app.route('/analyze')
+def analyze_page():
+    return render_template('project_page2.html')
+
+@app.route('/edit')
+def edit_page():
+    return render_template('page_edit.html')
 
 @app.route('/uploads', methods=['POST'])
 def upload_data():
@@ -45,6 +53,8 @@ def delete_data():
     db.uploads.remove({'title':title})
     # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
+
+
 
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
