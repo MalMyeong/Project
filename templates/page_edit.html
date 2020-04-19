@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script>
+        
+    </script>
+    <style>
+        #btn-1 {
+            margin-top: 5px;
+            margin-left: 30px;
+            margin-right: 1px;
+            color: #B89977;
+        }
+        #btn-2 {
+            margin-right: 1px;
+            color: #B89977;
+        }
+        #btn-group button{
+            border: solid   white;
+            background-color: white;
+            padding: 5px;
+            color: #B89977;
+        }
+        #btn-group :hover{
+            color: white;
+            background-color: #B89977;
+        }
+        #upload-file-btn {
+            border: solid   white;
+            background-color:#B89977;
+            padding: 5px;
+            color: white;
+            width: 400px;
+            margin-top: 10px;
+        }
+        #upload-file-btn:hover {
+            background-color: #B89977;
+            color: white;
+            border: solid rgb(184, 112, 35);
+        }
+        .main {
+            font-size: 15px;
+        }
+        .button button {
+            border: solid   white;
+            background-color:#B89977;
+            padding: 5px;
+            color: white;
+            width: 400px;
+            margin-top: 10px;
+            
+        }
+        .button :hover {
+            color: white;
+            background-color: #B89977;
+            border-color: white;    
+        }
+        .info {
+            margin-left: 500px;
+        }
+        .form-control {
+            margin-right: 545px;
+            padding: 10px;
+            height: 40px;
+        }
+        #inputGroup-sizing-sm {
+            background-color: #B89977;
+            color: white;
+            height: 40px;
+            width: 90px;
+            text-align: center;
+            font-size: small;
+        }
+        .input-group {
+            margin-top: 10px;
+        }
+        input::placeholder {
+            font-size: small;
+        }
+        .btn-file {
+            position: relative;
+            background-color: #B89977;
+            overflow: hidden;
+            border: solid #B89977;
+        }
+        #upload-btn:hover {
+            background-color: #B89977;
+            color: white;
+            border: solid rgb(184, 112, 35);
+        } 
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class='info'>
+        <form method="POST" action="http://localhost:5000/uploads/edit" enctype="multipart/form-data">
+            <div class="input-group">
+                <span class="input-group-btn">
+                <span class="btn btn-primary btn-file" id="upload-btn">
+                    이미지 불러오기 <input type="file" id="photo" name="file" multiple>
+                </span>
+                </span>
+                <input type="text" class="form-control" readonly>
+            </div>
+            <div class="input-group">
+                <div class="input_equiq">
+                <span class="input-group-text" id="inputGroup-sizing-sm">제목</span>
+                </div>
+                <input type="text" name="title" id='title' class="form-control" placeholder='작성자_날짜 순으로 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group">
+                <div class="input_equiq">
+                <span class="input-group-text" id="inputGroup-sizing-sm">공정 변수</span>
+                </div>
+                <input type="text" name="main_value" id='main_value' class="form-control" placeholder='공정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group">
+                <div class="input_equiq">
+                <span class="input-group-text" id="inputGroup-sizing-sm">측정 장비</span>
+                </div>
+                <input type="text" name="equip" id='equip' class="form-control" placeholder='측정 장비를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group">
+                <div class="input_equiq">
+                <span class="input-group-text" id="inputGroup-sizing-sm">측정 변수</span>
+                </div>
+                <input type="text" name="sub_value" id='sub_value' class="form-control" placeholder='측정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group">
+                <div class="input_equiq">
+                <span class="input-group-text" id="inputGroup-sizing-sm">측정값</span>
+                </div>
+                <input type="text" name="data" id='data' class="form-control" placeholder='측정한 데이터값을 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div>
+                <button id="upload-file-btn" type="submit">Upload</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
