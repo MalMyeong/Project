@@ -140,33 +140,25 @@
             //orders-box 비우기
         })
 
-        /*function posting() {
+        function posting() {
             $.ajax({
-                type: 'POST',
-                url: 'http://localhost:5000/upload',
-                data: {
-                    photo: $('#photo').val(),
-                    title: $('#title').val(),
-                    main_value: $('#main_value').val(),
-                    equip: $('#equip').val(),
-                    sub_value: $('#sub_value').val(),
-                    data: $('#data').val()
-                },
+                url: 'http://localhost:5000/uploads',
+                dataType: 'json',
                 success: function(response) {
                     if (response['result'] == 'success') {
-                        alert('upload 성공')
+                        alert('업로드 성공!')
                         window.location.reload()
                     } else {
                         alert('서버 오류!')
                     }
                 }
             })
-        }*/
+        }
 
         function listing() {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:5000/upload',
+                url: 'http://localhost:5000/uploads',
                 data: {},
                 success: function(response) {
                     if (response['result'] == 'success') {
@@ -199,8 +191,27 @@
                         <p class="sub-value">${sub_value}</p>
                         <p class="card-data">${data}</p>
                     </div>
+                    <a href="#" onclick="delete_data('${title}')" class="card-footer-item has-text-danger">
+                        삭제
+                        <span class="icon">
+                          <i class="fas fa-ban"></i>
+                        </span>
+                    </a>
                 </div> 
             </div> `
+        }
+
+        function delete_data(title){
+          $.ajax({
+              url:  'http://localhost:5000/uploads',
+              dataType: 'json',
+              success: function (response) {
+                  if (response['result'] == 'success') {
+					alert('삭제 완료!');
+                    window.location.reload();
+                  }
+              }
+          });
         }
     </script>
 </head>
@@ -211,12 +222,12 @@
         </div>
     </div>
     <div id="btn-group">
-        <button id="upload" href="http://localhost:5000/upload">등록 및 조회</button>
+        <button id="upload" href="http://localhost:5000/uploads">등록 및 조회</button>
         <button id="analyzing">분석</button>
     </div>
     <div>
         <div class='info'>
-            <form method="POST" action="/upload" enctype="multipart/form-data">
+            <form method="POST" action="http://localhost:5000/uploads" enctype="multipart/form-data">
                 <div class="input-group">
                     <span class="input-group-btn">
                     <span class="btn btn-primary btn-file" id="upload-btn">
@@ -256,7 +267,7 @@
                     <input type="text" name="data" id='data' class="form-control" placeholder='측정한 데이터값을 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <div>
-                    <button  id="upload-file-btn" type="submit">Upload</button>
+                    <button onclick="posting()" id="upload-file-btn" type="submit">Upload</button>
                 </div>
             </form>
         </div>
@@ -274,6 +285,12 @@
                         <p class="sub-value">sub value</p>
                         <p class="card-data">data</p>
                     </div>
+                    <a href="#" onclick="delete_data('title')" class="card-footer-item has-text-danger">
+                        삭제
+                        <span class="icon">
+                          <i class="fas fa-ban"></i>
+                        </span>
+                    </a>
                 </div> 
             </div>  
         </div>
