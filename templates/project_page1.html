@@ -170,7 +170,7 @@
                             let sub_value = read['sub_value']
                             let equipment = read['equipment']
                             let data = read['data']
-                            let temp_html = make_card(title, main_value, sub_value, equipment,data)
+                            let temp_html = make_card(title, main_value, sub_value, data, equipment)
                             $('#cards_box').append(temp_html)
                         }
                     }
@@ -185,15 +185,17 @@
                 </div>
                 <div id='data_box'>
                     <div class="card-body">
-                        <p class="card-title">${title}</p>
-                        <p class="main-value">${main_value}</p>
-                        <p class="card-equip">${equipment}</p>
-                        <p class="sub-value">${sub_value}</p>
-                        <p class="card-data">${data}</p>
+                        <p class="card-title">제목 ${title}</p>
+                        <p class="main-value">공정변수 ${main_value}</p>
+                        <p class="card-equip">측정장비 ${equipment}</p>
+                        <p class="sub-value">측정변수 ${sub_value}</p>
+                        <p class="card-data">측정값 ${data}</p>
                     </div>
                     <a href="#" onclick="delete_data('${title}')" class="card-footer-item has-text-danger">
-                        삭제
+                        데이터 삭제
                     </a>
+                    <br>
+                    <a href = "javascript:popup()" target = "_blank">수정하기</a>
                 </div> 
             </div> `
         }
@@ -220,8 +222,8 @@
         </div>
     </div>
     <div id="btn-group">
-        <button id="upload" href="http://localhost:5000/uploads">등록 및 조회</button>
-        <button id="analyzing">분석</button>
+        <button onclick="location.href='http://localhost:5000/'" id="upload" >등록 및 조회</button>
+        <button onclick="location.href='http://localhost:5000/analyze'" id="analyzing" >분석</button>
     </div>
     <div>
         <div class='info'>
@@ -238,7 +240,7 @@
                     <div class="input_equiq">
                     <span class="input-group-text" id="inputGroup-sizing-sm">제목</span>
                     </div>
-                    <input type="text" name="title" id='title' class="form-control" placeholder='작성자_날짜 순으로 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <input type="text" name="title" id='title' class="form-control" placeholder='작성자_날짜_등록순서 순으로 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <div class="input-group">
                     <div class="input_equiq">
@@ -277,15 +279,17 @@
                 </div>
                 <div id='data_box'>
                     <div class="card-body">
-                        <p class="card-title">title</p>
-                        <p class="main-value">main value</p>
-                        <p class="card-equip">equipment</p>
-                        <p class="sub-value">sub value</p>
-                        <p class="card-data">data</p>
+                        <p class="card-title">제목 title</p>
+                        <p class="main-value">공정변수 main value</p>
+                        <p class="card-equip">측정장비 equipment</p>
+                        <p class="sub-value">측정변수 sub value</p>
+                        <p class="card-data">측정값 data</p>
                     </div>
-                    <a href="#" onclick="delete_data('title')" class="card-footer-item has-text-danger">
-                        삭제
-                    </a>
+                    <button href="#" onclick="delete_data('title')" class="card-footer-item has-text-danger">
+                        데이터 삭제
+                    </button>
+                    <br>
+                    <button onclick="location.href='http://localhost:5000/uploads/edit'" id="editing" >수정하기</button>
                 </div> 
             </div>  
         </div>
