@@ -1,15 +1,10 @@
 
 from flask import Flask, render_template, jsonify, request
-from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
-
 from pymongo import MongoClient
-from gridfs import GridFS
-from bson import objectid
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
-fs = GridFS(db)
 collection = db.upload
 
 
@@ -20,7 +15,7 @@ def home():
 @app.route('/upload', methods=['POST'])
 def upload_data():
     file = request.files['file']
-    photo = fs.put(file, filename=file.filename, encoding='utf-8')
+    photo = file.filename
     title = request.form['title']
     main_value = request.form['main_value']
     equip = request.form['equip']
