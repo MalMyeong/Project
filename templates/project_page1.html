@@ -193,9 +193,6 @@
                     </div>
                     <a href="#" onclick="delete_data('${title}')" class="card-footer-item has-text-danger">
                         삭제
-                        <span class="icon">
-                          <i class="fas fa-ban"></i>
-                        </span>
                     </a>
                 </div> 
             </div> `
@@ -203,8 +200,9 @@
 
         function delete_data(title){
           $.ajax({
-              url:  'http://localhost:5000/uploads',
-              dataType: 'json',
+              type: 'POST',
+              url:  'http://localhost:5000/uploads/delete',
+              data: {'title':title},
               success: function (response) {
                   if (response['result'] == 'success') {
 					alert('삭제 완료!');
@@ -287,9 +285,6 @@
                     </div>
                     <a href="#" onclick="delete_data('title')" class="card-footer-item has-text-danger">
                         삭제
-                        <span class="icon">
-                          <i class="fas fa-ban"></i>
-                        </span>
                     </a>
                 </div> 
             </div>  
