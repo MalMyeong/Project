@@ -104,8 +104,8 @@
         </div>
     </div>
     <div id="btn-group">
-        <button id="upload">등록 및 조회</button>
-        <button id="analyzing">분석</button>
+        <button onclick="location.href='http://localhost:5000/'" id="upload" >등록 및 조회</button>
+        <button onclick="location.href='http://localhost:5000/analyze'" id="analyzing" >분석</button>
     </div>
     <div>
         <div class='info'>
@@ -133,9 +133,10 @@
                 </div>
                 <select class="form-control" id="inputGroupSelect01">
                   <option selected>Choose...</option>
-                  <option value="1">평균</option>
-                  <option value="2">표준 편차</option>
-                  <option value="3">최대/최소</option>
+                  <option value="1">그래프 비교</option>
+                  <option value="2">평균</option>
+                  <option value="3">표준 편차</option>
+                  <option value="4">최대/최소</option>
                 </select>
               </div>
             <div class="button">
