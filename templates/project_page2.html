@@ -8,12 +8,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
-    <script src="semantic/dist/semantic.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">    
     
@@ -96,6 +94,22 @@
             font-size: small;
         }
     </style>
+    <script>
+        function posting() {
+            $.ajax({
+                url: 'http://localhost:5000/analyze',
+                dataType: 'json',
+                success: function(response) {
+                    if (response['result'] == 'success') {
+                        alert('업로드 성공!')
+                        window.location.reload()
+                    } else {
+                        alert('서버 오류!')
+                    }
+                }
+            })
+        }
+    </script>
 </head>
 <body>
     <div>
@@ -109,40 +123,42 @@
     </div>
     <div>
         <div class='info'>
-            <div class="input-group">
-                <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">공정 변수</span>
+            <form method="POST" action="http://localhost:5000/analyze" enctype="multipart/form-data">
+                <div class="input-group">
+                    <div class="input_equiq">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">공정 변수</span>
+                    </div>
+                    <input id="main_value" name="main_value" type="text" class="form-control" placeholder='공정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
-                <input type="text" class="form-control" placeholder='공정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <div class="input-group">
-                <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">측정 장비</span>
+                <div class="input-group">
+                    <div class="input_equiq">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">측정 장비</span>
+                    </div>
+                    <input id="equipment" name="equipment" type="text" class="form-control" placeholder='측정 장비를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
-                <input type="text" class="form-control" placeholder='측정 장비를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <div class="input-group">
-                <div class="input_equiq">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">측정 변수</span>
+                <div class="input-group">
+                    <div class="input_equiq">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">측정 변수</span>
+                    </div>
+                    <input id="sub_value" name="sub_value" type="text" class="form-control" placeholder='측정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
-                <input type="text" class="form-control" placeholder='측정 변수를 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <div class="input-group mb-3">
-                <div class="input_equiq">
-                  <label class="input-group-text" id='inputGroup-sizing-sm' for="inputGroupSelect01">분석값</label>
+                <div class="input-group mb-3">
+                    <div class="input_equiq">
+                    <label class="input-group-text" id='inputGroup-sizing-sm' for="inputGroupSelect01">분석값</label>
+                    </div>
+                    <select class="form-control" id="inputGroupSelect01" name="select_option" id="select_option">
+                    <option selected>Choose...</option>
+                    <option value="1">그래프 비교</option>
+                    <option value="2">평균</option>
+                    <option value="3">표준 편차</option>
+                    <option value="4">최대/최소</option>
+                    </select>
                 </div>
-                <select class="form-control" id="inputGroupSelect01">
-                  <option selected>Choose...</option>
-                  <option value="1">그래프 비교</option>
-                  <option value="2">평균</option>
-                  <option value="3">표준 편차</option>
-                  <option value="4">최대/최소</option>
-                </select>
-              </div>
-            <div class="button">
-                <button id='upload_data' type="button" class="btn btn-primary btn-lg btn-block">분석하기</button>
+                <div class="button">
+                    <button onclick="posting()" id='upload_data' type="submit" class="btn btn-primary btn-lg btn-block">분석하기</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 </html>
