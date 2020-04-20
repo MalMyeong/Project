@@ -16,9 +16,17 @@ def home():
 def analyze_page():
     return render_template('project_page2.html')
 
-@app.route('/edit')
-def edit_page():
-    return render_template('page_edit.html')
+@app.route('/analyze', methods=['POST'])
+def search_data():
+    main_value = request.form['main_value']
+    equipment = request.form['equipment']
+    sub_value = request.form['sub_value']
+    find_main = db.uploads.find({'main_value':main_value})
+    find_equip = find_main({'equipment':equipment})
+    list(find_equip({'sub_value':sub_value}))
+    return jsonify({'result':'success'})
+
+
 
 @app.route('/uploads', methods=['POST'])
 def upload_data():
@@ -53,8 +61,6 @@ def delete_data():
     db.uploads.remove({'title':title})
     # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
-
-
 
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
