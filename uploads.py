@@ -1,5 +1,5 @@
-
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+import numpy
+from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
 from pymongo import MongoClient
@@ -11,23 +11,32 @@ collection = db.uploads
 @app.route('/')
 def home():
     return render_template('project_page1.html')
-
+# 분석 페이지 연결
 @app.route('/analyze')
 def analyze_page():
     return render_template('project_page2.html')
 
+#분석 페이지 옵션에 맞는 데이터 찾기
 @app.route('/analyze', methods=['POST'])
 def search_data():
     main_value = request.form['main_value']
     equipment = request.form['equipment']
     sub_value = request.form['sub_value']
     result = db.uploads.find({'$and':[{'main_value':main_value,'equipment':equipment,'sub_value':sub_value}]})
+    total_data = list()
     for i in result:
-        print(i['data'])
+        data = float(i['data'])
+        total_data.append(data)
+    total_data = total_data
+    select = request.form['select_option']
+    if select == '2':
+        result = numpy.mean(total_data)
+    elif select == '3':
+        result = numpy.std(total_data)
+    print(result)
     return render_template('project_page2.html')
 
-
-
+# 데이터 업로드 페이지
 @app.route('/uploads', methods=['POST'])
 def upload_data():
     file = request.files['file']
@@ -48,11 +57,13 @@ def upload_data():
     db.uploads.insert_one(doc)
     return jsonify({"result":"success"})
 
+#업로드된 데이터 보여주는 페이지
 @app.route('/uploads', methods=['GET'])
 def read_data():
     read = list(db.uploads.find({},{'_id':0}))
     return jsonify({'result':'success', 'read':read})
 
+#데이터 삭제 페이지
 @app.route('/uploads/delete', methods=['POST'])
 def delete_data():
     # 1. 클라이언트가 전달한 name_give를 name_receive 변수에 넣습니다.
@@ -61,6 +72,8 @@ def delete_data():
     db.uploads.delete_one({'title':title})
     # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
+# 입력 데이터 수정 페이지
+
 
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
