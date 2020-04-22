@@ -137,7 +137,6 @@
         $(document).ready(function () {
             $('#cards_box').html('')
             listing()
-            //orders-box 비우기
         })
 
         function posting() {
@@ -289,7 +288,7 @@
                         데이터 삭제
                     </button>
                     <br>
-                    <button onclick="location.href='http://localhost:5000/uploads/edit'" id="editing" >수정하기</button>
+                    <button onclick="location.href='http://localhost:5000/uploads/edit/<title>'" id="editing" >수정하기</button>
                 </div> 
             </div>  
         </div>
