@@ -1,5 +1,6 @@
 import numpy
-from flask import Flask, render_template, jsonify, request
+import matplotlib.pyplot as plt
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
 
 from pymongo import MongoClient
@@ -24,10 +25,14 @@ def search_data():
     sub_value = request.form['sub_value']
     result = db.uploads.find({'$and':[{'main_value':main_value,'equipment':equipment,'sub_value':sub_value}]})
     total_data = list()
+    total_title = list()
     for i in result:
         data = float(i['data'])
+        title = i['title']
         total_data.append(data)
+        total_title.append(title)
     total_data = total_data
+    total_title = total_title
     select = request.form['select_option']
     if select == '2':
         result = numpy.mean(total_data)
@@ -73,6 +78,22 @@ def delete_data():
     # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
 # 입력 데이터 수정 페이지
+@app.route('/edit')
+def edit_page():
+    return render_template('page_edit.html')
+
+@app.route('/edit/<title>')
+def edit(title):
+    return title
+
+@app.route('/uploads', methods=['POST','GET'])
+def get_title():
+    if request.method == 'POST':
+        find_title = request.form['title']
+        return redirect(url_for('edit', title = find_title))
+    else:
+        find_title = request.args.get['title']
+        return redirect(url_for('edit', title = find_title))
 
 
 if __name__ == '__main__':
