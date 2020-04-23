@@ -1,8 +1,11 @@
 import numpy
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from bson.objectid import ObjectId
+app = Flask(__name__)
+
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-app = Flask(__name__)
 
 from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
@@ -36,11 +39,6 @@ def search_data():
     total_title = total_title
     print(total_data)
     print(total_title)
-    # 그래프연습
-    # 그래프를 표현할 액자
-    plt.figure()
-
-    plt.plot(total_title, total_data)
 
     #select = request.form['select_option']
     #if select == '2':
@@ -48,7 +46,7 @@ def search_data():
     #elif select == '3':
     #    result = numpy.std(total_data)
     #print(result)
-    return render_template('project_page2.html', data = plt.show())
+    return render_template('project_page2.html')
 
 # 데이터 업로드 페이지
 @app.route('/uploads', methods=['POST'])
@@ -74,8 +72,10 @@ def upload_data():
 #업로드된 데이터 보여주는 페이지
 @app.route('/uploads', methods=['GET'])
 def read_data():
-    read = list(db.uploads.find({},{'_id':0}))
-    return jsonify({'result':'success', 'read':read})
+    read = list(db.uploads.find())
+    for doc in read:
+        doc['_id'] = str(doc['_id'])
+    return jsonify({'result':'success', 'read': read})
 
 #데이터 삭제 페이지
 @app.route('/uploads/delete', methods=['POST'])
@@ -87,23 +87,10 @@ def delete_data():
     # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
 # 입력 데이터 수정 페이지
-@app.route('/edit')
-def edit_page():
-    return render_template('page_edit.html')
-
-@app.route('/edit/<title>')
-def edit(title):
-    return title
-
-@app.route('/uploads', methods=['POST','GET'])
-def get_title():
-    if request.method == 'POST':
-        find_title = request.form['title']
-        return redirect(url_for('edit', title = find_title))
-    else:
-        find_title = request.args.get['title']
-        return redirect(url_for('edit', title = find_title))
-
+@app.route('/uploads/edit', methods=['GET'])
+def edit():
+    data_id = request.args.get('_id')
+    return render_template('page_edit.html', data_id=data_id)
 
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
