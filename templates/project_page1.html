@@ -132,6 +132,10 @@
             cursor: inherit;
             display: block;
         }
+        #data_id {
+            color: white;
+            visibility: hidden;
+        }
     </style>
     <script>
         $(document).ready(function () {
@@ -164,12 +168,13 @@
                         const reads = response['read']
                         for (let read of reads) {
                             console.log(read)
+                            let data_id = read['_id']
                             let title = read['title']
                             let main_value = read['main_value']
                             let sub_value = read['sub_value']
                             let equipment = read['equipment']
                             let data = read['data']
-                            let temp_html = make_card(title, main_value, sub_value, data, equipment)
+                            let temp_html = make_card(data_id,title, main_value, sub_value, data, equipment)
                             $('#cards_box').append(temp_html)
                         }
                     }
@@ -177,13 +182,14 @@
             })
         }
 
-        function make_card(title, main_value, sub_value, data, equipment) {
+        function make_card(data_id,title, main_value, sub_value, data, equipment) {
             return `<div class="card">
                 <div id="imagePreview">
                     <img id="img" />
                 </div>
                 <div id='data_box'>
                     <div class="card-body">
+                        <p class="card-title" id="data_id">${data_id}</p>
                         <p class="card-title" id="data_title">제목 ${title}</p>
                         <p class="main-value">공정변수 ${main_value}</p>
                         <p class="card-equip">측정장비 ${equipment}</p>
@@ -194,7 +200,7 @@
                         데이터 삭제
                     </a>
                     <br>
-                    <a href = "javascript:popup()" target = "_blank">수정하기</a>
+                    <button onclick="edit_page('${data_id}')" id="editing" >수정하기</button>
                 </div> 
             </div> `
         }
@@ -211,6 +217,16 @@
                   }
               }
           });
+        }
+
+        function edit_page(data_id){
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:5000/uploads/edit',
+                data: {'data_id':data_id},
+                success: function(response) {
+                }
+            })
         }
     </script>
 </head>
@@ -278,6 +294,7 @@
                 </div>
                 <div id='data_box'>
                     <div class="card-body">
+                        <p class="card-title" id="data_id">id</p>
                         <p class="card-title" id="data_title">제목 title</p>
                         <p class="main-value">공정변수 main value</p>
                         <p class="card-equip">측정장비 equipment</p>
@@ -288,7 +305,7 @@
                         데이터 삭제
                     </button>
                     <br>
-                        <button action="{{url_for('edit_page')}}" id="editing" >수정하기</button>
+                    <button onclick="edit_page('data_id')" id="editing" >수정하기</button>
                 </div> 
             </div>  
         </div>
