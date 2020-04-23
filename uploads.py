@@ -1,5 +1,6 @@
 import numpy
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
 
@@ -33,13 +34,21 @@ def search_data():
         total_title.append(title)
     total_data = total_data
     total_title = total_title
-    select = request.form['select_option']
-    if select == '2':
-        result = numpy.mean(total_data)
-    elif select == '3':
-        result = numpy.std(total_data)
-    print(result)
-    return render_template('project_page2.html')
+    print(total_data)
+    print(total_title)
+    # 그래프연습
+    # 그래프를 표현할 액자
+    plt.figure()
+
+    plt.plot(total_title, total_data)
+
+    #select = request.form['select_option']
+    #if select == '2':
+    #    result = numpy.mean(total_data)
+    #elif select == '3':
+    #    result = numpy.std(total_data)
+    #print(result)
+    return render_template('project_page2.html', data = plt.show())
 
 # 데이터 업로드 페이지
 @app.route('/uploads', methods=['POST'])
