@@ -184,7 +184,7 @@
                 </div>
                 <div id='data_box'>
                     <div class="card-body">
-                        <p class="card-title">제목 ${title}</p>
+                        <p class="card-title" id="data_title">제목 ${title}</p>
                         <p class="main-value">공정변수 ${main_value}</p>
                         <p class="card-equip">측정장비 ${equipment}</p>
                         <p class="sub-value">측정변수 ${sub_value}</p>
@@ -278,7 +278,7 @@
                 </div>
                 <div id='data_box'>
                     <div class="card-body">
-                        <p class="card-title">제목 title</p>
+                        <p class="card-title" id="data_title">제목 title</p>
                         <p class="main-value">공정변수 main value</p>
                         <p class="card-equip">측정장비 equipment</p>
                         <p class="sub-value">측정변수 sub value</p>
@@ -288,7 +288,7 @@
                         데이터 삭제
                     </button>
                     <br>
-                    <button onclick="location.href='http://localhost:5000/uploads/edit/<title>'" id="editing" >수정하기</button>
+                        <button action="{{url_for('edit_page')}}" id="editing" >수정하기</button>
                 </div> 
             </div>  
         </div>
