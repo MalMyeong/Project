@@ -93,6 +93,18 @@
         input::placeholder {
             font-size: small;
         }
+        #graph-box {
+            display: none;
+        }
+        #average-box {
+            display: none;
+        }
+        #deviation-box {
+            display: none;
+        }
+        #max-min-box {
+            display: none;
+        }
     </style>
     <script>
          $(document).ready(function () {
@@ -163,7 +175,20 @@
                     <button onclick="posting()" id='analyze_data' type="submit" class="btn btn-primary btn-lg btn-block">분석하기</button>
                 </div>
             </form>
-            <img src={{name}} alt="Chart" width="42" height="42">
+            <div>
+                <div id="graph-box">
+                    <h2>그래프</h2>
+                </div>
+                <div id="average-box">
+                    <h2>평균</h2>
+                </div>
+                <div id="deviation-box">
+                    <h2>표준편차</h2>
+                </div>
+                <div id="max-min-box">
+                    <h2>최대최소</h2>
+                </div>
+            </div>
         </div>
     </div>
 </body>
