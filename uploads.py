@@ -1,5 +1,7 @@
 import numpy
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+from bs4 import BeautifulSoup
+import requests
 from bson.objectid import ObjectId
 app = Flask(__name__)
 
@@ -37,8 +39,11 @@ def search_data():
         total_title.append(title)
     total_data = total_data
     total_title = total_title
-    print(total_data)
-    print(total_title)
+
+    #x = total_title
+    #y = total_data
+    #plt.plot(x,y)
+    #plt.savefig('savefig_default.png')
 
     #select = request.form['select_option']
     #if select == '2':
@@ -91,6 +96,28 @@ def delete_data():
 def edit():
     data_id = request.args.get('data_id')
     return render_template('page_edit.html', data_id=data_id)
+#수정한 데이터 입력 & home으로 돌아가기
+
+@app.route('/uploads/edit', methods=['POST'])
+def edit_page():
+    #file = request.files['file']
+    #photo = file.filename
+    #title = request.form['title']
+    #main_value = request.form['main_value']
+    #equip = request.form['equip']
+    #sub_value = request.form['sub_value']
+    #data = request.form['data']
+    data_title = request.form['title']
+    print(data_title)
+    #db.uploads.update({'_id':data_id},{'$set':{'photo':photo}})
+    #db.uploads.update({'_id':data_id}{'$set': {'title':title}})
+    #db.uploads.update({'_id':data_id}{'$set': {'main_value':main_value}})
+    #db.uploads.update({'_id':data_id}{'$set': {'equipment':equip}})
+    #db.uploads.update({'_id':data_id}{'$set': {'sub_value':sub_value}})
+    #db.uploads.update({'_id':data_id}{'$set': {'data':data}})
+    return jsonify({'result':'success'})
+
+
 
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
