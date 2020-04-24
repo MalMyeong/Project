@@ -93,35 +93,28 @@
         input::placeholder {
             font-size: small;
         }
-        #graph-box {
-            display: none;
-        }
-        #average-box {
-            display: none;
-        }
-        #deviation-box {
-            display: none;
-        }
-        #max-min-box {
-            display: none;
-        }
+        
     </style>
     <script>
-         $(document).ready(function () {
-            $('#result').html('')
-            listing()
-        })
         function posting() {
+            var state = jQuery('#select_option option:selected').val();
+            if (state==="1"){
+                jQuery('#graph-box').show()
+            } 
+            else if (state==="2"){
+                jQuery('#average-box').show()
+            }
+            else if (state=="3"){
+                jQuery('#deviation-box').show()
+            }
+            else if (state=="4"){
+                jQuery('#max-min-box').show()
+            }
             $.ajax({
                 url: 'http://localhost:5000/analyze',
                 dataType: 'json',
                 success: function(response) {
-                    if (response['result'] == 'success') {
-                        alert('분석 성공!')
-                        window.location.reload()
-                    } else {
-                        alert('서버 오류!')
-                    }
+                    
                 }
             })
         }
@@ -163,7 +156,7 @@
                     <div class="input_equiq">
                     <label class="input-group-text" id='inputGroup-sizing-sm' for="inputGroupSelect01">분석값</label>
                     </div>
-                    <select class="form-control" id="inputGroupSelect01" name="select_option" id="select_option">
+                    <select class="form-control" name="select_option" id="select_option">
                     <option selected>Choose...</option>
                     <option value="1">그래프 비교</option>
                     <option value="2">평균</option>
@@ -172,22 +165,26 @@
                     </select>
                 </div>
                 <div class="button">
-                    <button onclick="posting()" id='analyze_data' type="submit" class="btn btn-primary btn-lg btn-block">분석하기</button>
+                    <button onclick="posting()" id='analyze_data' type="button" class="btn btn-primary btn-lg btn-block">분석하기</button>
+                </div>
+                <div>
+                    <div id="graph-box" style="display: none;">
+                        <h2>그래프</h2>
+                        <img src="data:image/png;base64, {{ result }}">
+                    </div>
+                    <div id="average-box" style="display: none;">
+                        <h2>평균</h2>
+                        <h3>{{result}}</h3>
+                    </div>
+                    <div id="deviation-box" style="display: none;">
+                        <h2>표준편차</h2>
+                        <h3>{{result}}</h3>
+                    </div>
+                    <div id="max-min-box" style="display: none;">
+                        <h2>최대/최소</h2>
+                        <h3>{{result}}</h3>
                 </div>
             </form>
-            <div>
-                <div id="graph-box">
-                    <h2>그래프</h2>
-                </div>
-                <div id="average-box">
-                    <h2>평균</h2>
-                </div>
-                <div id="deviation-box">
-                    <h2>표준편차</h2>
-                </div>
-                <div id="max-min-box">
-                    <h2>최대최소</h2>
-                </div>
             </div>
         </div>
     </div>
