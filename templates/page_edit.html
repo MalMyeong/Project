@@ -16,7 +16,17 @@
         crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <script>
-        
+        function edit_page(){
+            $.ajax ({
+                type: 'POST',
+                url: 'http://localhost:5000/uploads/edit',
+                dataType: 'json',
+                success: function(response) {
+                    alert('수정 완료!')
+                    window.locaion.href='http://localhost:5000/'
+                }
+            })
+        }
     </script>
     <style>
         #btn-1 {
@@ -117,14 +127,19 @@
             cursor: inherit;
             display: block;
         }
+        #data_id {
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
-    <form method="GET" action="http://localhost:5000/uploads/edit"+{{data_id}}>
-        
-    </form>
+    <div class="data_id">
+        <h1 id="data_id" name="data_id">{{data_id}}</h1>
+        <h1 id="data_title" name="data_title">{{title}}</h1>
+    </div>
     <div class='info'>
         <form method="POST" action="http://localhost:5000/uploads/edit"+{{data_id}} enctype="multipart/form-data">
+            
             <div class="input-group">
                 <span class="input-group-btn">
                 <span class="btn btn-primary btn-file" id="upload-btn">
