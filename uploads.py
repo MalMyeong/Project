@@ -89,7 +89,7 @@ def delete_data():
 # 입력 데이터 수정 페이지
 @app.route('/uploads/edit', methods=['GET'])
 def edit():
-    data_id = request.args.get('_id')
+    data_id = request.args.get('data_id')
     return render_template('page_edit.html', data_id=data_id)
 
 if __name__ == '__main__':
