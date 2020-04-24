@@ -219,14 +219,18 @@
           });
         }
 
-        function edit_page(data_id){
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:5000/uploads/edit',
-                data: {'data_id':data_id},
-                success: function(response) {
-                }
-            })
+        function edit_page(data_id,){
+            console.log(data_id)
+            location.href = 'http://localhost:5000/uploads/edit?data_id='+data_id
+            // $.ajax({
+            //     type: 'GET',
+            //     url: 'http://localhost:5000/uploads/edit?data_id='+data_id,
+            //     //data: {'data_id':data_id},
+            //     success: function(response) {
+                    
+            //         location.href = 'http://localhost:5000/uploads/edit?data_id='+data_id
+            //     }
+            // })
         }
     </script>
 </head>
@@ -305,7 +309,7 @@
                         데이터 삭제
                     </button>
                     <br>
-                    <button onclick="edit_page('data_id')" id="editing" class="card-footer-item has-text-danger" type="button">
+                    <button onclick="edit_page('data_id')" action="http://localhost:5000/uploads/edit"+{{data_id}} id="editing" class="card-footer-item has-text-danger" type="button">
                         수정하기
                     </button>
                 </div> 
