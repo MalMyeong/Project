@@ -7,7 +7,10 @@ app = Flask(__name__)
 
 
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import matplotlib
+matplotlib.use('Agg')
+from io import BytesIO
+import base64
 
 from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
@@ -39,19 +42,26 @@ def search_data():
         total_title.append(title)
     total_data = total_data
     total_title = total_title
+    select = request.form['select_option']
+    if select == '1':
+        img = BytesIO()
+        x = total_title
+        y = total_data
+        plt.plot(x,y , color='#B89977')
+        plt.savefig(img, format='png')
+        plt.close()
+        img.seek(0)
+        result = base64.b64encode(img.getvalue()).decode('utf8')
+    elif select == '2':
+        result = numpy.mean(total_data)
+    elif select == '3':
+        result = numpy.std(total_data)
+    elif select == '4':
+        maximum = max(total_data)
+        minimum = min(total_data)
+        result = '최대값 : ' + str(maximum) + '\n' +  '  최소값 : ' + str(minimum)
 
-    #x = total_title
-    #y = total_data
-    #plt.plot(x,y)
-    #plt.savefig('savefig_default.png')
-
-    #select = request.form['select_option']
-    #if select == '2':
-    #    result = numpy.mean(total_data)
-    #elif select == '3':
-    #    result = numpy.std(total_data)
-    #print(result)
-    return render_template('project_page2.html')
+    return render_template('project_page2.html',result=result)
 
 # 데이터 업로드 페이지
 @app.route('/uploads', methods=['POST'])
@@ -107,8 +117,8 @@ def edit_page():
     #equip = request.form['equip']
     #sub_value = request.form['sub_value']
     #data = request.form['data']
-    data_title = request.form['title']
-    print(data_title)
+    data_id = ObjectId(request.form['data_id'])
+    print(data_id)
     #db.uploads.update({'_id':data_id},{'$set':{'photo':photo}})
     #db.uploads.update({'_id':data_id}{'$set': {'title':title}})
     #db.uploads.update({'_id':data_id}{'$set': {'main_value':main_value}})
