@@ -120,6 +120,9 @@
     </style>
 </head>
 <body>
+    <form method="GET" action="http://localhost:5000/uploads/edit"+{{data_id}}>
+        
+    </form>
     <div class='info'>
         <form method="POST" action="http://localhost:5000/uploads/edit"+{{data_id}} enctype="multipart/form-data">
             <div class="input-group">
@@ -161,7 +164,7 @@
                 <input type="text" name="data" id='data' class="form-control" placeholder='측정한 데이터값을 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div>
-                <button id="upload-file-btn" type="submit">Upload</button>
+                <button id="upload-file-btn" type="submit">수정하기</button>
             </div>
         </form>
     </div>
