@@ -1,9 +1,9 @@
 import numpy
 from flask import Flask, render_template, jsonify, request, redirect, url_for
-from bs4 import BeautifulSoup
-import requests
 from bson.objectid import ObjectId
+from bson import Binary
 app = Flask(__name__)
+
 
 
 import matplotlib.pyplot as plt
@@ -16,6 +16,7 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
 collection = db.uploads
+
 
 
 @app.route('/')
@@ -47,15 +48,20 @@ def search_data():
         img = BytesIO()
         x = total_title
         y = total_data
-        plt.plot(x,y , color='#B89977')
+        plt.figure(figsize=(7,9))
+        plt.plot(x,y , color='#B89977', marker='o')
+        plt.title('Result')
+        plt.xticks(rotation=45)
         plt.savefig(img, format='png')
         plt.close()
         img.seek(0)
         result = base64.b64encode(img.getvalue()).decode('utf8')
     elif select == '2':
-        result = numpy.mean(total_data)
+        average = numpy.mean(total_data)
+        result = '평균 : ' + str(average)
     elif select == '3':
-        result = numpy.std(total_data)
+        deviation = numpy.std(total_data)
+        result = '표준편차 : ' + str(deviation)
     elif select == '4':
         maximum = max(total_data)
         minimum = min(total_data)
@@ -67,7 +73,7 @@ def search_data():
 @app.route('/uploads', methods=['POST'])
 def upload_data():
     file = request.files['file']
-    photo = file.filename
+    photo = base64.b64encode(file.getvalue())
     title = request.form['title']
     main_value = request.form['main_value']
     equip = request.form['equip']
@@ -108,17 +114,16 @@ def edit():
     return render_template('page_edit.html', data_id=data_id)
 #수정한 데이터 입력 & home으로 돌아가기
 
-@app.route('/uploads/edit', methods=['POST'])
-def edit_page():
-    #file = request.files['file']
+@app.route('/uploads/edit/<data_id>')
+def edit_page(data_id):
+    d_id = db.uploads.find_one({"data_id":data_id})
+    print(d_id)
     #photo = file.filename
     #title = request.form['title']
     #main_value = request.form['main_value']
     #equip = request.form['equip']
     #sub_value = request.form['sub_value']
     #data = request.form['data']
-    data_id = ObjectId(request.form['data_id'])
-    print(data_id)
     #db.uploads.update({'_id':data_id},{'$set':{'photo':photo}})
     #db.uploads.update({'_id':data_id}{'$set': {'title':title}})
     #db.uploads.update({'_id':data_id}{'$set': {'main_value':main_value}})
