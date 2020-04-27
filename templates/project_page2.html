@@ -93,23 +93,29 @@
         input::placeholder {
             font-size: small;
         }
-        
+        .result {
+            margin-left: -160px;
+            }
     </style>
     <script>
         function posting() {
-            var state = jQuery('#select_option option:selected').val();
-            if (state==="1"){
-                jQuery('#graph-box').show()
-            } 
-            else if (state==="2"){
-                jQuery('#average-box').show()
-            }
-            else if (state=="3"){
-                jQuery('#deviation-box').show()
-            }
-            else if (state=="4"){
-                jQuery('#max-min-box').show()
-            }
+            // var state = jQuery('#select_option option:selected').val();
+            // if (state==="1"){
+            //     jQuery('#graph-box').css('display','block')
+            //     jQuery('#data-box').hide()
+            //  } 
+            //  else if (state==="2"){
+            //     jQuery('#graph-box').hide()
+            //     jQuery('#data-box').show()
+            //  }
+            //  else if (state=="3"){
+            //     jQuery('#graph-box').hide()
+            //     jQuery('#data-box').show()
+            //  }
+            //  else if (state=="4"){
+            //     jQuery('#graph-box').hide()
+            //     jQuery('#data-box').show()
+            //  }
             $.ajax({
                 url: 'http://localhost:5000/analyze',
                 dataType: 'json',
@@ -165,24 +171,17 @@
                     </select>
                 </div>
                 <div class="button">
-                    <button onclick="posting()" id='analyze_data' type="button" class="btn btn-primary btn-lg btn-block">분석하기</button>
+                    <button onclick="posting()" id='analyze_data' type="submit" class="btn btn-primary btn-lg btn-block">분석하기</button>
                 </div>
-                <div>
-                    <div id="graph-box" style="display: none;">
-                        <h2>그래프</h2>
-                        <img src="data:image/png;base64, {{ result }}">
-                    </div>
-                    <div id="average-box" style="display: none;">
-                        <h2>평균</h2>
-                        <h3>{{result}}</h3>
-                    </div>
-                    <div id="deviation-box" style="display: none;">
-                        <h2>표준편차</h2>
-                        <h3>{{result}}</h3>
-                    </div>
-                    <div id="max-min-box" style="display: none;">
-                        <h2>최대/최소</h2>
-                        <h3>{{result}}</h3>
+                <div class="result">
+                    <div id="analyze-data">
+                        <div id="graph-box" style="display: block;">
+                            <img src="data:image/png;base64, {{ result }}">
+                        </div>
+                        <div id="data-box" style="display: block;">
+                            <h3>{{result}}</h3>
+                        </div>
+                    </div>                    
                 </div>
             </form>
             </div>
