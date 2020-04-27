@@ -34,16 +34,6 @@
             letter-spacing: 0.0824rem;
             font-family: 'Nanum Gothic', sans-serif;
         }
-        #btn-1 {
-            margin-top: 5px;
-            margin-left: 30px;
-            margin-right: 1px;
-            color: #B89977;
-        }
-        #btn-2 {
-            margin-right: 1px;
-            color: #B89977;
-        }
         #btn-group button{
             border: solid   white;
             background-color: white;
@@ -132,10 +122,14 @@
             cursor: inherit;
             display: block;
         }
-        #data_id {
-            color: white;
-            visibility: hidden;
+        #data_id { visibility: hidden;}
+        #data_box {
+            text-align: center;
         }
+        .button-group {
+            background-color: #B89977;
+        }
+        
     </style>
     <script>
         $(document).ready(function () {
@@ -183,7 +177,7 @@
         }
 
         function make_card(data_id,title, main_value, sub_value, data, equipment) {
-            return `<div class="card">
+            return `<div class="card"">
                 <div id="imagePreview">
                     <img id="img" />
                 </div>
@@ -196,11 +190,11 @@
                         <p class="sub-value">측정변수 ${sub_value}</p>
                         <p class="card-data">측정값 ${data}</p>
                     </div>
-                    <a href="#" onclick="delete_data('${title}')" class="card-footer-item has-text-danger">
-                        데이터 삭제
+                    <a href="#" style="color: #B89977;" onclick="delete_data('title')" id="delete" class="card-footer-item has-text-danger">
+                            삭제하기
                     </a>
-                    <br>
-                    <button onclick="edit_page('${data_id}')" id="editing" >수정하기</button>
+                    &nbsp&nbsp&nbsp&nbsp
+                    <a href="#" style="color: #B89977;" onclick="edit_page('${data_id}')" id="editing" >수정하기</a>
                 </div> 
             </div> `
         }
@@ -218,7 +212,6 @@
               }
           });
         }
-
         function edit_page(data_id,){
             console.log(data_id)
             location.href = 'http://localhost:5000/uploads/edit?data_id='+data_id
@@ -244,7 +237,7 @@
         <button onclick="location.href='http://localhost:5000/'" id="upload" >등록 및 조회</button>
         <button onclick="location.href='http://localhost:5000/analyze'" id="analyzing" >분석</button>
     </div>
-    <div>
+    <div class="wrap">
         <div class='info'>
             <form method="POST" action="http://localhost:5000/uploads" enctype="multipart/form-data">
                 <div class="input-group">
@@ -286,7 +279,7 @@
                     <input type="text" name="data" id='data' class="form-control" placeholder='측정한 데이터값을 입력해주세요.' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <div>
-                    <button onclick="posting()" id="upload-file-btn" type="submit">Upload</button>
+                    <button onclick="posting()" id="upload-file-btn" type="submit" cursor="point">Upload</button>
                 </div>
             </form>
         </div>
@@ -305,17 +298,16 @@
                         <p class="sub-value">측정변수 sub value</p>
                         <p class="card-data">측정값 data</p>
                     </div>
-                    <button href="#" onclick="delete_data('title')" class="card-footer-item has-text-danger">
-                        데이터 삭제
-                    </button>
-                    <br>
-                    <button onclick="edit_page('data_id')" action="http://localhost:5000/uploads/edit"+{{data_id}} id="editing" class="card-footer-item has-text-danger" type="button">
-                        수정하기
-                    </button>
+                    <div class="button-group">
+                        <a href="#" style="color: #B89977;" onclick="delete_data('title')" id="delete" class="card-footer-item has-text-danger">
+                            삭제하기
+                        </a>
+                        &nbsp&nbsp&nbsp&nbsp
+                        <a href="#" style="color: #B89977;" onclick="edit_page('${data_id}')" id="edit" >수정하기</a>
+                    </div>
                 </div> 
             </div>  
-        </div>
-        
+        </div>  
     </div>
 </body>
 </html>
