@@ -99,23 +99,16 @@
     </style>
     <script>
         function posting() {
-            // var state = jQuery('#select_option option:selected').val();
-            // if (state==="1"){
-            //     jQuery('#graph-box').css('display','block')
-            //     jQuery('#data-box').hide()
-            //  } 
-            //  else if (state==="2"){
-            //     jQuery('#graph-box').hide()
-            //     jQuery('#data-box').show()
-            //  }
-            //  else if (state=="3"){
-            //     jQuery('#graph-box').hide()
-            //     jQuery('#data-box').show()
-            //  }
-            //  else if (state=="4"){
-            //     jQuery('#graph-box').hide()
-            //     jQuery('#data-box').show()
-            //  }
+             var state = jQuery('#select_option option:selected').val();
+             if (state==="1"){
+                 jQuery('#graph-box').css('display','block')
+                 jQuery('#data-box').css('display','none')
+              } 
+              else (state==="2"){
+                 jQuery('#graph-box').css('display','none')
+                 jQuery('#data-box').css('display','block')
+              }
+              
             $.ajax({
                 url: 'http://localhost:5000/analyze',
                 dataType: 'json',
@@ -175,10 +168,10 @@
                 </div>
                 <div class="result">
                     <div id="analyze-data">
-                        <div id="graph-box" style="display: block;">
+                        <div id="graph-box" style="display: none;">
                             <img src="data:image/png;base64, {{ result }}">
                         </div>
-                        <div id="data-box" style="display: block;">
+                        <div id="data-box" style="display: none;">
                             <h3>{{result}}</h3>
                         </div>
                     </div>                    
